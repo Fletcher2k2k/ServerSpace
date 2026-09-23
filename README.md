@@ -110,7 +110,7 @@ File-system errors such as inaccessible directories do not terminate the complet
 
 ## Reports
 
-ServerSpace can export scan results as:
+ServerSpace can export scan results as CSV or TXT.
 
 ### CSV
 
@@ -223,15 +223,13 @@ ServerSpace will not transfer information to other networked systems unless spec
 
 ## Code signing policy
 
-ServerSpace releases are intended to be digitally signed.
-
-The project plans to use free code signing provided by SignPath.io, with a certificate provided by the SignPath Foundation, subject to approval of the project.
+Free code signing provided by **SignPath.io**, certificate by **SignPath Foundation**.
 
 Project roles:
 
-- Author: Jürgen Schön
-- Reviewer: Jürgen Schön
-- Approver: Jürgen Schön
+- Authors: Jürgen Schön
+- Reviewers: Jürgen Schön
+- Approvers: Jürgen Schön
 
 The first public release, ServerSpace `0.1.0`, was published before code signing was introduced.
 
@@ -241,9 +239,9 @@ Future releases are intended to use a reproducible and verifiable build and sign
 
 ## Security
 
-ServerSpace does not require administrative privileges for normal operation.
+ServerSpace runs with the permissions of the Windows user who starts the application.
 
-Access to files and directories is limited to the permissions of the Windows user running the application.
+Access to files and directories is limited to the permissions available to that user.
 
 ServerSpace does not attempt to bypass Windows file-system permissions.
 
@@ -276,7 +274,7 @@ The roadmap is intentionally open and may change as the project develops.
 
 ServerSpace is free and open source software.
 
-It is released under the MIT License.
+It is released under the **MIT License**.
 
 See:
 
