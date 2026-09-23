@@ -16,3 +16,5 @@ ServerSpace.log
 
 # Local build helper files
 .build-appdata/
+
+.appdata/
