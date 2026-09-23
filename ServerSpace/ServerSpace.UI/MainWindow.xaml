@@ -1,7 +1,7 @@
 <Window x:Class="ServerSpace.UI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ServerSpace" Height="700" Width="1100"
+        Title="ServerSpace" Icon="Assets/ServerSpace.ico" Height="700" Width="1100"
         MinHeight="520" MinWidth="760"
         PreviewKeyDown="MainWindow_PreviewKeyDown">
     <Grid>
