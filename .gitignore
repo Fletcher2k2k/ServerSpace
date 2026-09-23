@@ -1,0 +1,18 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# .NET build output
+bin/
+obj/
+
+# WPF / build artifacts
+publish/
+release/
+
+# Application logs
+ServerSpace.log
+
+# Local build helper files
+.build-appdata/

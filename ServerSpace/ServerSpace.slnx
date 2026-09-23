@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="ServerSpace.Core\ServerSpace.Core.csproj" />
+  <Project Path="ServerSpace.Scanner\ServerSpace.Scanner.csproj" />
+  <Project Path="ServerSpace.UI\ServerSpace.UI.csproj" />
+</Solution>
