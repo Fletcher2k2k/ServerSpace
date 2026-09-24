@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Win32;
 using ServerSpace.Core.Models;
 using ServerSpace.Scanner;
+using ServerSpace.UI.Localization;
 using ServerSpace.UI.Services;
 using System.Windows;
 using System.Windows.Controls;
@@ -73,7 +74,10 @@ public partial class MainWindow : Window
 
         _filterTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(300) };
         _filterTimer.Tick += FilterTimer_Tick;
+        LocalizationManager.RestoreWindowPlacement(this);
         _uiInitialized = true;
+        UpdateLanguageChecks();
+        UpdateLocalizedDataGridHeaders();
     }
 
     public VisibleRowsCollection VisibleRows => _visibleRows;
@@ -92,21 +96,57 @@ public partial class MainWindow : Window
         aboutWindow.ShowDialog();
     }
 
-    private void ResultsDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+    private void LanguageMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        if (e.Column.Header is not string header)
+        if (sender is not System.Windows.Controls.MenuItem { Tag: string tag })
         {
-            e.Handled = true;
             return;
         }
 
-        SortColumn? column = header switch
+        LocalizationManager.SetLanguage(
+            System.Windows.Application.Current,
+            tag == "German" ? AppLanguage.German : AppLanguage.English);
+        UpdateLanguageChecks();
+        UpdateLocalizedDataGridHeaders();
+    }
+
+    private void UpdateLocalizedDataGridHeaders()
+    {
+        if (ResultsDataGrid.Columns.Count < 6)
         {
-            "Größe" => SortColumn.Size,
-            "Dateien" => SortColumn.Files,
-            "Ordner" => SortColumn.Directories,
-            "Anteil" => SortColumn.Share,
-            "Name" => SortColumn.Name,
+            return;
+        }
+
+        ResultsDataGrid.Columns[0].Header = LocalizationManager.GetString("ColumnName");
+        ResultsDataGrid.Columns[1].Header = LocalizationManager.GetString("ColumnSizeBar");
+        ResultsDataGrid.Columns[2].Header = LocalizationManager.GetString("ColumnSize");
+        ResultsDataGrid.Columns[3].Header = LocalizationManager.GetString("ColumnFiles");
+        ResultsDataGrid.Columns[4].Header = LocalizationManager.GetString("ColumnFolders");
+        ResultsDataGrid.Columns[5].Header = LocalizationManager.GetString("ColumnPercentage");
+    }
+
+    private void MainWindow_Closing(object? sender, CancelEventArgs e)
+    {
+        LocalizationManager.SaveWindowPlacement(this);
+    }
+
+    private void UpdateLanguageChecks()
+    {
+        bool german = LocalizationManager.CurrentLanguage == AppLanguage.German;
+        GermanLanguageMenuItem.IsChecked = german;
+        EnglishLanguageMenuItem.IsChecked = !german;
+    }
+
+    private void ResultsDataGrid_Sorting(object sender, DataGridSortingEventArgs e)
+    {
+        int columnIndex = ResultsDataGrid.Columns.IndexOf(e.Column);
+        SortColumn? column = columnIndex switch
+        {
+            0 => SortColumn.Name,
+            2 => SortColumn.Size,
+            3 => SortColumn.Files,
+            4 => SortColumn.Directories,
+            5 => SortColumn.Share,
             _ => null
         };
         e.Handled = true;
@@ -174,21 +214,11 @@ public partial class MainWindow : Window
 
     private void ColumnMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not System.Windows.Controls.MenuItem item || item.Header is not string header)
+        if (sender is not System.Windows.Controls.MenuItem { Tag: string tag } item
+            || !int.TryParse(tag, out int columnIndex))
         {
             return;
         }
-
-        int columnIndex = header switch
-        {
-            "Name" => 0,
-            "Größenbalken" => 1,
-            "Größe" => 2,
-            "Dateien" => 3,
-            "Ordner" => 4,
-            "Anteil" => 5,
-            _ => -1
-        };
         if (columnIndex >= 0)
         {
             ResultsDataGrid.Columns[columnIndex].Visibility = item.IsChecked
@@ -260,7 +290,7 @@ public partial class MainWindow : Window
         System.Windows.Controls.ContextMenu contextMenu = new();
         System.Windows.Controls.MenuItem menuItem = new()
         {
-            Header = "Im Explorer öffnen"
+            Header = LocalizationManager.GetString("ContextOpenExplorer")
         };
         menuItem.Click += OpenRowInExplorer_Click;
         contextMenu.Items.Add(menuItem);
@@ -281,7 +311,7 @@ public partial class MainWindow : Window
     {
         using Forms.FolderBrowserDialog dialog = new()
         {
-            Description = "Ordner für den Scan auswählen",
+            Description = LocalizationManager.GetString("BrowseDescription"),
             UseDescriptionForTitle = true,
             SelectedPath = Directory.Exists(PathTextBox.Text) ? PathTextBox.Text : string.Empty
         };
@@ -317,7 +347,7 @@ public partial class MainWindow : Window
 
         WinSaveFileDialog dialog = new()
         {
-            Filter = "CSV-Bericht (*.csv)|*.csv|Text-Bericht (*.txt)|*.txt",
+            Filter = LocalizationManager.GetString("DialogReportFilter"),
             FilterIndex = 1,
             AddExtension = true,
             DefaultExt = ".csv",
@@ -340,7 +370,7 @@ public partial class MainWindow : Window
         catch (Exception exception)
         {
             ExceptionLogger.Log(exception);
-            ShowError($"Der Bericht konnte nicht gespeichert werden: {exception.Message}");
+            ShowError(LocalizationManager.Format("ErrorReportSave", exception.Message));
         }
     }
 
@@ -351,15 +381,15 @@ public partial class MainWindow : Window
             _reportExporter.Export(_lastScanResult!, filePath);
             System.Windows.MessageBox.Show(
                 this,
-                "Bericht erfolgreich gespeichert.",
-                "ServerSpace",
+                LocalizationManager.GetString("ReportSaved"),
+                LocalizationManager.GetString("DialogReportTitle"),
                 MessageBoxButton.OK,
                 MessageBoxImage.Information);
         }
         catch (Exception exception)
         {
             ExceptionLogger.Log(exception);
-            ShowError($"Der Bericht konnte nicht gespeichert werden: {exception.Message}");
+            ShowError(LocalizationManager.Format("ErrorReportSave", exception.Message));
         }
     }
 
@@ -389,7 +419,7 @@ public partial class MainWindow : Window
         string path = PathTextBox.Text.Trim();
         if (string.IsNullOrWhiteSpace(path))
         {
-            ShowError("Bitte geben Sie einen Startpfad ein.");
+            ShowError(LocalizationManager.GetString("ErrorInvalidPath"));
             return;
         }
 
@@ -450,7 +480,7 @@ public partial class MainWindow : Window
     {
         _cancellationTokenSource?.Cancel();
         CancelButton.IsEnabled = false;
-        ResultTextBlock.Text = "Abbruch wird ausgeführt ...";
+        ResultTextBlock.Text = LocalizationManager.GetString("StatusAbortPending");
     }
 
     private void ToggleRowButton_Click(object sender, RoutedEventArgs e)
@@ -582,7 +612,8 @@ public partial class MainWindow : Window
         });
         DurationTextBlock.Text = FormatDuration(result.Duration);
         ErrorsTextBlock.Text = result.Errors.Count.ToString(CultureInfo.CurrentCulture);
-        ResultTextBlock.Text = result.WasCancelled ? "Scan abgebrochen" : "Scan abgeschlossen";
+        ResultTextBlock.Text = LocalizationManager.GetString(
+            result.WasCancelled ? "StatusCancelled" : "StatusCompleted");
 
         ApplyDirectoryUpdate(new DirectoryScanUpdate
         {
@@ -601,7 +632,7 @@ public partial class MainWindow : Window
     {
         if (string.IsNullOrWhiteSpace(path) || !Directory.Exists(path))
         {
-            ShowError($"Der Ordner ist nicht erreichbar: {path}");
+            ShowError(LocalizationManager.Format("ErrorExplorerPath", path));
             return;
         }
 
@@ -617,7 +648,7 @@ public partial class MainWindow : Window
         catch (Exception exception)
         {
             ExceptionLogger.Log(exception);
-            ShowError($"Der Ordner konnte nicht im Explorer geöffnet werden: {exception.Message}");
+            ShowError(LocalizationManager.Format("ErrorExplorerOpen", exception.Message));
         }
     }
 
@@ -1070,15 +1101,15 @@ public partial class MainWindow : Window
         BytesTextBlock.Text = "0 B";
         DurationTextBlock.Text = "00:00:00";
         ErrorsTextBlock.Text = "0";
-        ResultTextBlock.Text = "Scan läuft ...";
+        ResultTextBlock.Text = LocalizationManager.GetString("StatusScanning");
         SaveReportMenuItem.IsEnabled = false;
         SaveReportAsMenuItem.IsEnabled = false;
     }
 
     private void ShowError(string message)
     {
-        ResultTextBlock.Text = $"Fehler: {message}";
-        System.Windows.MessageBox.Show(this, message, "Scanfehler", MessageBoxButton.OK, MessageBoxImage.Error);
+        ResultTextBlock.Text = LocalizationManager.Format("ErrorPrefix", message);
+        System.Windows.MessageBox.Show(this, message, LocalizationManager.GetString("DialogScanErrorTitle"), MessageBoxButton.OK, MessageBoxImage.Error);
     }
 
     private static int GetPathDepth(DirectoryScanUpdate update) =>

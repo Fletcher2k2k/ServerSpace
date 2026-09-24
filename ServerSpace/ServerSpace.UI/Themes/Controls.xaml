@@ -38,6 +38,9 @@
     <Style TargetType="MenuItem">
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Padding" Value="8,4" />
         <Setter Property="Height" Value="27" />
         <Style.Triggers>
@@ -201,12 +204,22 @@
     </Style>
 
     <Style TargetType="Separator">
-        <Setter Property="Background" Value="{StaticResource BorderBrush}" />
+        <Setter Property="Margin" Value="0,3" />
+        <Setter Property="Height" Value="8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Separator">
+                    <Border Background="Transparent" SnapsToDevicePixels="True" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style TargetType="ContextMenu">
         <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
         <Setter Property="Foreground" Value="{StaticResource TextPrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 </ResourceDictionary>

@@ -1,7 +1,7 @@
 <Window x:Class="ServerSpace.UI.AboutWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Über ServerSpace"
+        Title="{DynamicResource AboutTitle}"
         Icon="Assets/ServerSpace.ico"
         Width="480"
         Height="430"
@@ -30,34 +30,34 @@
         <Separator Grid.Row="1" Margin="0,18,0,14" />
 
         <StackPanel Grid.Row="2">
-            <TextBlock Text="Entwickelt von" Foreground="{StaticResource TextSecondaryBrush}" />
+            <TextBlock Text="{DynamicResource AboutDevelopedBy}" Foreground="{StaticResource TextSecondaryBrush}" />
             <TextBlock Text="Jürgen Schön" FontSize="16" Margin="0,2,0,0" />
-            <TextBlock Text="Kostenlos &amp; Open Source" Margin="0,12,0,0"
+            <TextBlock Text="{DynamicResource AboutFreeOpenSource}" Margin="0,12,0,0"
                        FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
         </StackPanel>
 
         <StackPanel Grid.Row="3" Margin="0,20,0,0">
-            <TextBlock Text="ServerSpace wurde mit Unterstützung künstlicher Intelligenz entwickelt."
+            <TextBlock Text="{DynamicResource AboutAi1}"
                        TextWrapping="Wrap" />
-            <TextBlock Text="Konzeption, Funktionsauswahl, Tests und Freigabe erfolgen durch den Entwickler."
+            <TextBlock Text="{DynamicResource AboutAi2}"
                        TextWrapping="Wrap" Margin="0,7,0,0" Foreground="{StaticResource TextSecondaryBrush}" />
 
-            <TextBlock Text="Technik" FontWeight="SemiBold" Margin="0,20,0,4" />
+            <TextBlock Text="{DynamicResource AboutTechnology}" FontWeight="SemiBold" Margin="0,20,0,4" />
             <TextBlock Text="C# / .NET 10   ·   WPF   ·   Windows x64" Foreground="{StaticResource TextSecondaryBrush}" />
 
             <StackPanel x:Name="LinksPanel" Margin="0,18,0,0">
-                <TextBlock Text="Projektlinks" FontWeight="SemiBold" Margin="0,0,0,4" />
-                <Button x:Name="ProjectWebsiteButton" Content="Projektwebsite" HorizontalAlignment="Left"
+                <TextBlock Text="{DynamicResource AboutLinks}" FontWeight="SemiBold" Margin="0,0,0,4" />
+                <Button x:Name="ProjectWebsiteButton" Content="{DynamicResource AboutWebsite}" HorizontalAlignment="Left"
                         Padding="0" Background="Transparent" BorderThickness="0" Foreground="{StaticResource AccentBrush}"
                         Click="ProjectWebsiteButton_Click" />
-                <Button x:Name="SourceCodeButton" Content="Quellcode" HorizontalAlignment="Left"
+                <Button x:Name="SourceCodeButton" Content="{DynamicResource AboutSourceCode}" HorizontalAlignment="Left"
                         Padding="0" Background="Transparent" BorderThickness="0" Foreground="{StaticResource AccentBrush}"
                         Click="SourceCodeButton_Click" />
             </StackPanel>
         </StackPanel>
 
         <TextBlock Grid.Row="4" Text="© 2026 Jürgen Schön" Foreground="{StaticResource TextSecondaryBrush}" />
-        <Button Grid.Row="5" Content="Schließen" IsDefault="True" IsCancel="True"
+        <Button Grid.Row="5" Content="{DynamicResource AboutClose}" IsDefault="True" IsCancel="True"
                 Width="88" Padding="8,4" HorizontalAlignment="Right" Click="CloseButton_Click" />
     </Grid>
 </Window>

@@ -2,6 +2,7 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
+using ServerSpace.UI.Localization;
 
 namespace ServerSpace.UI;
 
@@ -12,6 +13,12 @@ public partial class App : System.Windows.Application
         DispatcherUnhandledException += OnDispatcherUnhandledException;
         AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
+    }
+
+    protected override void OnStartup(StartupEventArgs e)
+    {
+        LocalizationManager.ApplySavedLanguage(this);
+        base.OnStartup(e);
     }
 
     private static void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)

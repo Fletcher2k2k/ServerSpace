@@ -2,6 +2,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using ServerSpace.Core.Models;
+using ServerSpace.UI.Localization;
 
 namespace ServerSpace.UI.Services;
 
@@ -32,14 +33,14 @@ public sealed class ReportExporter
     private static void ExportCsv(ScanResult scanResult, string filePath)
     {
         using StreamWriter writer = CreateWriter(filePath);
-        writer.WriteLine("Pfad;ParentPfad;Name;Ebene;Größe;SizeBytes;Dateien;Ordner;AnteilProzent;Status;LetzteÄnderung");
+        writer.WriteLine(LocalizationManager.GetString("ReportCsvHeader"));
 
         WriteCsvDirectory(writer, scanResult, scanResult.Root, null, 0, scanResult.Root.SizeBytes);
 
         if (scanResult.Errors.Count > 0)
         {
             writer.WriteLine();
-            writer.WriteLine("Fehler");
+            writer.WriteLine(LocalizationManager.GetString("ReportErrors"));
             foreach (ScanError error in scanResult.Errors)
             {
                 writer.WriteLine(string.Join(';', Csv(error.Path), Csv(error.Message)));
@@ -58,7 +59,7 @@ public sealed class ReportExporter
         double percentage = parentPath is null
             ? 100
             : rootSizeBytes > 0 ? node.SizeBytes * 100d / rootSizeBytes : 0;
-        string status = scanResult.WasCancelled ? "Abgebrochen" : "OK";
+        string status = LocalizationManager.GetString(scanResult.WasCancelled ? "ReportStatusCancelled" : "ReportStatusOk");
         string lastWriteTime = node.LastWriteTime?.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture) ?? string.Empty;
 
         writer.WriteLine(string.Join(';',
@@ -83,21 +84,21 @@ public sealed class ReportExporter
     private static void ExportText(ScanResult scanResult, string filePath)
     {
         using StreamWriter writer = CreateWriter(filePath);
-        string status = scanResult.WasCancelled ? "SCAN ABGEBROCHEN - ERGEBNIS UNVOLLSTÄNDIG" : "SCAN ABGESCHLOSSEN";
+        string status = LocalizationManager.GetString(scanResult.WasCancelled ? "ReportCancelledStatus" : "ReportCompletedStatus");
 
-        writer.WriteLine("ServerSpace - Speicherbericht");
+        writer.WriteLine(LocalizationManager.GetString("ReportHeader"));
         writer.WriteLine();
-        writer.WriteLine($"Scanpfad: {scanResult.Root.FullPath}");
-        writer.WriteLine($"Startzeit: {scanResult.StartedAt:yyyy-MM-dd HH:mm:ss}");
-        writer.WriteLine($"Endzeit: {scanResult.FinishedAt:yyyy-MM-dd HH:mm:ss}");
-        writer.WriteLine($"Dauer: {scanResult.Duration}");
-        writer.WriteLine($"Status: {status}");
-        writer.WriteLine($"Gesamtgröße: {FormatBytes(scanResult.TotalBytes)}");
-        writer.WriteLine($"Dateien: {scanResult.TotalFiles.ToString("N0", CultureInfo.CurrentCulture)}");
-        writer.WriteLine($"Ordner: {scanResult.TotalDirectories.ToString("N0", CultureInfo.CurrentCulture)}");
-        writer.WriteLine($"Fehleranzahl: {scanResult.Errors.Count.ToString("N0", CultureInfo.CurrentCulture)}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportScanPath")}: {scanResult.Root.FullPath}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportStart")}: {scanResult.StartedAt:yyyy-MM-dd HH:mm:ss}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportEnd")}: {scanResult.FinishedAt:yyyy-MM-dd HH:mm:ss}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportDuration")}: {scanResult.Duration}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportStatus")}: {status}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportTotalSize")}: {FormatBytes(scanResult.TotalBytes)}");
+        writer.WriteLine($"{LocalizationManager.GetString("StatFiles")}: {scanResult.TotalFiles.ToString("N0", CultureInfo.CurrentCulture)}");
+        writer.WriteLine($"{LocalizationManager.GetString("StatFolders")}: {scanResult.TotalDirectories.ToString("N0", CultureInfo.CurrentCulture)}");
+        writer.WriteLine($"{LocalizationManager.GetString("ReportErrorCount")}: {scanResult.Errors.Count.ToString("N0", CultureInfo.CurrentCulture)}");
         writer.WriteLine();
-        writer.WriteLine("Verzeichnisübersicht");
+        writer.WriteLine(LocalizationManager.GetString("ReportDirectoryOverview"));
         writer.WriteLine();
 
         WriteTextDirectory(writer, scanResult.Root, 0);
@@ -105,11 +106,11 @@ public sealed class ReportExporter
         if (scanResult.Errors.Count > 0)
         {
             writer.WriteLine();
-            writer.WriteLine("Fehler");
+            writer.WriteLine(LocalizationManager.GetString("ReportErrors"));
             foreach (ScanError error in scanResult.Errors)
             {
-                writer.WriteLine($"Pfad: {error.Path}");
-                writer.WriteLine($"Meldung: {error.Message}");
+                writer.WriteLine($"{LocalizationManager.GetString("ReportErrorPathLabel")}: {error.Path}");
+                writer.WriteLine($"{LocalizationManager.GetString("ReportErrorMessageLabel")}: {error.Message}");
                 writer.WriteLine();
             }
         }

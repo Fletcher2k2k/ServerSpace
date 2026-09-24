@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ServerSpace" Icon="Assets/ServerSpace.ico" Height="700" Width="1100"
         MinHeight="520" MinWidth="760"
-        PreviewKeyDown="MainWindow_PreviewKeyDown">
+        PreviewKeyDown="MainWindow_PreviewKeyDown"
+        Closing="MainWindow_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -11,33 +12,40 @@
         </Grid.RowDefinitions>
 
         <Menu Grid.Row="0" HorizontalAlignment="Stretch">
-            <MenuItem Header="_Menü">
-                <MenuItem x:Name="SaveReportMenuItem" Header="Bericht speichern" InputGestureText="Ctrl+S"
+            <MenuItem Header="{DynamicResource MenuMain}">
+                <MenuItem x:Name="SaveReportMenuItem" Header="{DynamicResource MenuSaveReport}" InputGestureText="Ctrl+S"
                           Click="SaveReportMenuItem_Click" IsEnabled="False" />
-                <MenuItem x:Name="SaveReportAsMenuItem" Header="Bericht speichern unter..." InputGestureText="Ctrl+Shift+S"
+                <MenuItem x:Name="SaveReportAsMenuItem" Header="{DynamicResource MenuSaveReportAs}" InputGestureText="Ctrl+Shift+S"
                           Click="SaveReportAsMenuItem_Click" IsEnabled="False" />
                 <Separator />
-                <MenuItem Header="Beenden" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
+                <MenuItem Header="{DynamicResource MenuLanguage}">
+                    <MenuItem x:Name="GermanLanguageMenuItem" Header="{DynamicResource LanguageGerman}" IsCheckable="True"
+                              Click="LanguageMenuItem_Click" Tag="German" />
+                    <MenuItem x:Name="EnglishLanguageMenuItem" Header="{DynamicResource LanguageEnglish}" IsCheckable="True"
+                              Click="LanguageMenuItem_Click" Tag="English" />
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="{DynamicResource MenuExit}" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
             </MenuItem>
-            <MenuItem Header="_Ansicht">
-                <MenuItem x:Name="FilterMenuItem" Header="Filter" IsCheckable="True"
+            <MenuItem Header="{DynamicResource MenuView}">
+                <MenuItem x:Name="FilterMenuItem" Header="{DynamicResource MenuFilter}" IsCheckable="True"
                           Checked="FilterMenuItem_Checked" Unchecked="FilterMenuItem_Unchecked" />
-                <MenuItem Header="Spalten">
-                    <MenuItem Header="Name" IsCheckable="True" IsChecked="True" IsEnabled="False"
+                <MenuItem Header="{DynamicResource MenuColumns}">
+                    <MenuItem Header="{DynamicResource ColumnName}" IsCheckable="True" IsChecked="True" IsEnabled="False" Tag="0"
                               Click="ColumnMenuItem_Click" />
-                    <MenuItem Header="Größenbalken" IsCheckable="True" IsChecked="True"
+                    <MenuItem Header="{DynamicResource ColumnSizeBar}" IsCheckable="True" IsChecked="True" Tag="1"
                               Click="ColumnMenuItem_Click" />
-                    <MenuItem Header="Größe" IsCheckable="True" IsChecked="True"
+                    <MenuItem Header="{DynamicResource ColumnSize}" IsCheckable="True" IsChecked="True" Tag="2"
                               Click="ColumnMenuItem_Click" />
-                    <MenuItem Header="Dateien" IsCheckable="True" IsChecked="True"
+                    <MenuItem Header="{DynamicResource ColumnFiles}" IsCheckable="True" IsChecked="True" Tag="3"
                               Click="ColumnMenuItem_Click" />
-                    <MenuItem Header="Ordner" IsCheckable="True" IsChecked="True"
+                    <MenuItem Header="{DynamicResource ColumnFolders}" IsCheckable="True" IsChecked="True" Tag="4"
                               Click="ColumnMenuItem_Click" />
-                    <MenuItem Header="Anteil" IsCheckable="True" IsChecked="True"
+                    <MenuItem Header="{DynamicResource ColumnPercentage}" IsCheckable="True" IsChecked="True" Tag="5"
                               Click="ColumnMenuItem_Click" />
                 </MenuItem>
             </MenuItem>
-            <MenuItem Header="_Über" Click="AboutMenuItem_Click" />
+            <MenuItem Header="{DynamicResource MenuAbout}" Click="AboutMenuItem_Click" />
         </Menu>
 
         <Grid Grid.Row="1" Margin="18">
@@ -50,7 +58,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Dateisystem-Scan" FontSize="19" FontWeight="SemiBold" />
+        <TextBlock Grid.Row="0" Text="{DynamicResource TitleScan}" FontSize="19" FontWeight="SemiBold" />
 
         <Grid Grid.Row="1" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
@@ -59,20 +67,24 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox x:Name="PathTextBox" Grid.Column="0" Height="30" VerticalContentAlignment="Center"
-                     ToolTip="Lokaler Pfad, gemapptes Laufwerk oder UNC-Pfad" />
-            <Button x:Name="BrowseButton" Grid.Column="1" Content="Durchsuchen" Margin="8,0,0,0"
-                    Padding="14,4" Click="BrowseButton_Click" />
+                     ToolTip="{DynamicResource TooltipPath}" />
+            <Button x:Name="BrowseButton" Grid.Column="1" Content="{DynamicResource ButtonBrowse}" Width="104"
+                    Margin="8,0,0,0" Padding="14,4"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                    Click="BrowseButton_Click" />
             <Button x:Name="OpenPathButton" Grid.Column="2" Content="📁" Margin="8,0,0,0"
-                    Padding="8,4" ToolTip="Im Explorer öffnen" Click="OpenPathButton_Click" />
+                    Padding="8,4" ToolTip="{DynamicResource TooltipOpenExplorer}" Click="OpenPathButton_Click" />
         </Grid>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,8,0,0">
-            <Button x:Name="ScanButton" Content="Scannen" Padding="18,5"
+            <Button x:Name="ScanButton" Content="{DynamicResource ButtonScan}" Width="96" Height="30"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                     Background="{StaticResource AccentBrush}"
                     Foreground="{StaticResource AccentTextBrush}"
                     BorderBrush="{StaticResource AccentBrush}"
                     Click="ScanButton_Click" />
-            <Button x:Name="CancelButton" Content="Abbrechen" Padding="18,5" Margin="8,0,0,0"
+            <Button x:Name="CancelButton" Content="{DynamicResource ButtonCancel}" Width="96" Height="30"
+                    HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="8,0,0,0"
                     IsEnabled="False" Click="CancelButton_Click" />
         </StackPanel>
 
@@ -82,13 +94,13 @@
                     BorderThickness="1">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <CheckBox x:Name="NameFilterCheckBox" Content="Name enthält" VerticalAlignment="Center"
+                        <CheckBox x:Name="NameFilterCheckBox" Content="{DynamicResource FilterName}" VerticalAlignment="Center"
                                   Checked="FilterOptionChanged" Unchecked="FilterOptionChanged" />
                         <TextBox x:Name="NameFilterTextBox" Width="180" Height="26" Margin="8,0,0,0"
                                  IsEnabled="False" TextChanged="FilterTextChanged" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                        <CheckBox x:Name="MinimumSizeCheckBox" Content="Mindestgröße" VerticalAlignment="Center"
+                        <CheckBox x:Name="MinimumSizeCheckBox" Content="{DynamicResource FilterMinimumSize}" VerticalAlignment="Center"
                                   Checked="FilterOptionChanged" Unchecked="FilterOptionChanged" />
                         <TextBox x:Name="MinimumSizeTextBox" Width="80" Height="26" Margin="8,0,0,0"
                                  IsEnabled="False" TextChanged="FilterTextChanged" />
@@ -99,9 +111,9 @@
                             <ComboBoxItem Content="TB" Tag="1099511627776" />
                         </ComboBox>
                     </StackPanel>
-                    <CheckBox x:Name="HideEmptyFoldersCheckBox" Content="Leere Ordner ausblenden"
+                    <CheckBox x:Name="HideEmptyFoldersCheckBox" Content="{DynamicResource FilterHideEmpty}"
                               Checked="FilterOptionChanged" Unchecked="FilterOptionChanged" />
-                    <Button Content="Filter zurücksetzen" HorizontalAlignment="Left" Margin="0,6,0,0"
+                    <Button Content="{DynamicResource FilterReset}" HorizontalAlignment="Left" Margin="0,6,0,0"
                             Padding="8,2" Click="ResetFilterButton_Click" />
                 </StackPanel>
             </Border>
@@ -116,23 +128,23 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <TextBlock Text="Dateien" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource StatFiles}" FontWeight="SemiBold" />
                 <TextBlock x:Name="FilesTextBlock" Text="0" />
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <TextBlock Text="Ordner" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource StatFolders}" FontWeight="SemiBold" />
                 <TextBlock x:Name="DirectoriesTextBlock" Text="0" />
             </StackPanel>
             <StackPanel Grid.Column="2">
-                <TextBlock Text="Gelesene Daten" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource StatData}" FontWeight="SemiBold" />
                 <TextBlock x:Name="BytesTextBlock" Text="0 B" />
             </StackPanel>
             <StackPanel Grid.Column="3">
-                <TextBlock Text="Laufzeit" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource StatElapsed}" FontWeight="SemiBold" />
                 <TextBlock x:Name="DurationTextBlock" Text="00:00:00" />
             </StackPanel>
             <StackPanel Grid.Column="4">
-                <TextBlock Text="Fehler" FontWeight="SemiBold" />
+                <TextBlock Text="{DynamicResource StatErrors}" FontWeight="SemiBold" />
                 <TextBlock x:Name="ErrorsTextBlock" Text="0" />
             </StackPanel>
         </Grid>
@@ -147,7 +159,7 @@
             </Grid.RowDefinitions>
 
             <ProgressBar x:Name="ScanProgressBar" Grid.Row="0" Height="8" IsIndeterminate="False" />
-            <TextBlock Grid.Row="1" Margin="0,6,0,0" Text="Aktueller Pfad:" FontWeight="SemiBold" />
+            <TextBlock Grid.Row="1" Margin="0,6,0,0" Text="{DynamicResource LabelCurrentPath}" FontWeight="SemiBold" />
             <TextBlock x:Name="CurrentPathTextBlock" Grid.Row="2" Text="-" TextWrapping="Wrap" />
 
             <DataGrid x:Name="ResultsDataGrid" Grid.Row="3" Margin="0,8,0,0"
@@ -162,7 +174,7 @@
                       LoadingRow="ResultsDataGrid_LoadingRow"
                       MouseDoubleClick="ResultsDataGrid_MouseDoubleClick">
                 <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Name" Width="*">
+                    <DataGridTemplateColumn Header="{DynamicResource ColumnName}" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -176,7 +188,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Größe grafisch" Width="150">
+                    <DataGridTemplateColumn Header="{DynamicResource ColumnSizeBar}" Width="150">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Grid Width="140" Height="12" HorizontalAlignment="Left" ClipToBounds="True">
@@ -186,16 +198,16 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Größe" Width="120" Binding="{Binding SizeDisplay}" />
-                    <DataGridTextColumn Header="Dateien" Width="90" Binding="{Binding FileCountDisplay}" />
-                    <DataGridTextColumn Header="Ordner" Width="90" Binding="{Binding DirectoryCountDisplay}" />
-                    <DataGridTextColumn Header="Anteil" Width="80" Binding="{Binding RootPercentageDisplay}" />
+                    <DataGridTextColumn Header="{DynamicResource ColumnSize}" Width="120" Binding="{Binding SizeDisplay}" />
+                    <DataGridTextColumn Header="{DynamicResource ColumnFiles}" Width="90" Binding="{Binding FileCountDisplay}" />
+                    <DataGridTextColumn Header="{DynamicResource ColumnFolders}" Width="90" Binding="{Binding DirectoryCountDisplay}" />
+                    <DataGridTextColumn Header="{DynamicResource ColumnPercentage}" Width="80" Binding="{Binding RootPercentageDisplay}" />
                 </DataGrid.Columns>
             </DataGrid>
 
             <TextBlock x:Name="ResultTextBlock" Grid.Row="4" Margin="6,6,6,0" Padding="4,2"
                        Background="{StaticResource StatusBarBrush}"
-                       Text="Noch kein Scan ausgeführt." />
+                       Text="{DynamicResource StatusReady}" />
         </Grid>
     </Grid>
     </Grid>

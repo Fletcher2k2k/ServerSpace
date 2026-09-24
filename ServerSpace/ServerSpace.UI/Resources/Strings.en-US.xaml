@@ -1,0 +1,84 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <sys:String x:Key="MenuMain" xmlns:sys="clr-namespace:System;assembly=System.Runtime">Menu</sys:String>
+    <sys:String x:Key="MenuView" xmlns:sys="clr-namespace:System;assembly=mscorlib">View</sys:String>
+    <sys:String x:Key="MenuAbout" xmlns:sys="clr-namespace:System;assembly=mscorlib">About</sys:String>
+    <sys:String x:Key="MenuSaveReport" xmlns:sys="clr-namespace:System;assembly=mscorlib">Save report</sys:String>
+    <sys:String x:Key="MenuSaveReportAs" xmlns:sys="clr-namespace:System;assembly=mscorlib">Save report as...</sys:String>
+    <sys:String x:Key="MenuLanguage" xmlns:sys="clr-namespace:System;assembly=mscorlib">Language</sys:String>
+    <sys:String x:Key="MenuExit" xmlns:sys="clr-namespace:System;assembly=mscorlib">Exit</sys:String>
+    <sys:String x:Key="LanguageGerman" xmlns:sys="clr-namespace:System;assembly=mscorlib">Deutsch</sys:String>
+    <sys:String x:Key="LanguageEnglish" xmlns:sys="clr-namespace:System;assembly=mscorlib">English</sys:String>
+    <sys:String x:Key="MenuFilter" xmlns:sys="clr-namespace:System;assembly=mscorlib">Filters</sys:String>
+    <sys:String x:Key="MenuColumns" xmlns:sys="clr-namespace:System;assembly=mscorlib">Columns</sys:String>
+    <sys:String x:Key="TitleScan" xmlns:sys="clr-namespace:System;assembly=mscorlib">File system scan</sys:String>
+    <sys:String x:Key="ButtonBrowse" xmlns:sys="clr-namespace:System;assembly=mscorlib">Browse</sys:String>
+    <sys:String x:Key="ButtonScan" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan</sys:String>
+    <sys:String x:Key="ButtonCancel" xmlns:sys="clr-namespace:System;assembly=mscorlib">Cancel</sys:String>
+    <sys:String x:Key="TooltipPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Local path, mapped drive or UNC path</sys:String>
+    <sys:String x:Key="TooltipOpenExplorer" xmlns:sys="clr-namespace:System;assembly=mscorlib">Open in Explorer</sys:String>
+    <sys:String x:Key="StatFiles" xmlns:sys="clr-namespace:System;assembly=mscorlib">Files</sys:String>
+    <sys:String x:Key="StatFolders" xmlns:sys="clr-namespace:System;assembly=mscorlib">Folders</sys:String>
+    <sys:String x:Key="StatData" xmlns:sys="clr-namespace:System;assembly=mscorlib">Data scanned</sys:String>
+    <sys:String x:Key="StatElapsed" xmlns:sys="clr-namespace:System;assembly=mscorlib">Elapsed time</sys:String>
+    <sys:String x:Key="StatErrors" xmlns:sys="clr-namespace:System;assembly=mscorlib">Errors</sys:String>
+    <sys:String x:Key="LabelCurrentPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Current path:</sys:String>
+    <sys:String x:Key="FilterName" xmlns:sys="clr-namespace:System;assembly=mscorlib">Name contains</sys:String>
+    <sys:String x:Key="FilterMinimumSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">Minimum size</sys:String>
+    <sys:String x:Key="FilterHideEmpty" xmlns:sys="clr-namespace:System;assembly=mscorlib">Hide empty folders</sys:String>
+    <sys:String x:Key="FilterReset" xmlns:sys="clr-namespace:System;assembly=mscorlib">Reset filters</sys:String>
+    <sys:String x:Key="ColumnName" xmlns:sys="clr-namespace:System;assembly=mscorlib">Name</sys:String>
+    <sys:String x:Key="ColumnSizeBar" xmlns:sys="clr-namespace:System;assembly=mscorlib">Size bar</sys:String>
+    <sys:String x:Key="ColumnSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">Size</sys:String>
+    <sys:String x:Key="ColumnFiles" xmlns:sys="clr-namespace:System;assembly=mscorlib">Files</sys:String>
+    <sys:String x:Key="ColumnFolders" xmlns:sys="clr-namespace:System;assembly=mscorlib">Folders</sys:String>
+    <sys:String x:Key="ColumnPercentage" xmlns:sys="clr-namespace:System;assembly=mscorlib">Percentage</sys:String>
+    <sys:String x:Key="ContextOpenExplorer" xmlns:sys="clr-namespace:System;assembly=mscorlib">Open in Explorer</sys:String>
+    <sys:String x:Key="BrowseDescription" xmlns:sys="clr-namespace:System;assembly=mscorlib">Select a folder to scan</sys:String>
+    <sys:String x:Key="DialogReportFilter" xmlns:sys="clr-namespace:System;assembly=mscorlib">CSV report (*.csv)|*.csv|Text report (*.txt)|*.txt</sys:String>
+    <sys:String x:Key="StatusReady" xmlns:sys="clr-namespace:System;assembly=mscorlib">No scan has been run yet.</sys:String>
+    <sys:String x:Key="StatusScanning" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scanning ...</sys:String>
+    <sys:String x:Key="StatusAbortPending" xmlns:sys="clr-namespace:System;assembly=mscorlib">Cancelling ...</sys:String>
+    <sys:String x:Key="StatusCompleted" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan completed</sys:String>
+    <sys:String x:Key="StatusCancelled" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan cancelled</sys:String>
+    <sys:String x:Key="ErrorInvalidPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Please enter a start path.</sys:String>
+    <sys:String x:Key="ErrorPrefix" xmlns:sys="clr-namespace:System;assembly=mscorlib">Error: {0}</sys:String>
+    <sys:String x:Key="ErrorReportSave" xmlns:sys="clr-namespace:System;assembly=mscorlib">The report could not be saved: {0}</sys:String>
+    <sys:String x:Key="ReportSaved" xmlns:sys="clr-namespace:System;assembly=mscorlib">Report saved successfully.</sys:String>
+    <sys:String x:Key="ErrorExplorerPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">The folder is not reachable: {0}</sys:String>
+    <sys:String x:Key="ErrorExplorerOpen" xmlns:sys="clr-namespace:System;assembly=mscorlib">The folder could not be opened in Explorer: {0}</sys:String>
+    <sys:String x:Key="ErrorLinkUnavailable" xmlns:sys="clr-namespace:System;assembly=mscorlib">The link is currently unavailable.</sys:String>
+    <sys:String x:Key="ErrorLinkOpen" xmlns:sys="clr-namespace:System;assembly=mscorlib">The link could not be opened: {0}</sys:String>
+    <sys:String x:Key="DialogErrorTitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">Error</sys:String>
+    <sys:String x:Key="DialogReportTitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace</sys:String>
+    <sys:String x:Key="DialogScanErrorTitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan error</sys:String>
+    <sys:String x:Key="AboutTitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">About ServerSpace</sys:String>
+    <sys:String x:Key="AboutVersion" xmlns:sys="clr-namespace:System;assembly=mscorlib">Version {0}</sys:String>
+    <sys:String x:Key="AboutDevelopedBy" xmlns:sys="clr-namespace:System;assembly=mscorlib">Developed by</sys:String>
+    <sys:String x:Key="AboutFreeOpenSource" xmlns:sys="clr-namespace:System;assembly=mscorlib">Free &amp; Open Source</sys:String>
+    <sys:String x:Key="AboutAi1" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace was developed with the assistance of artificial intelligence.</sys:String>
+    <sys:String x:Key="AboutAi2" xmlns:sys="clr-namespace:System;assembly=mscorlib">Concept, feature selection, testing and release approval are performed by the developer.</sys:String>
+    <sys:String x:Key="AboutTechnology" xmlns:sys="clr-namespace:System;assembly=mscorlib">Technology</sys:String>
+    <sys:String x:Key="AboutLinks" xmlns:sys="clr-namespace:System;assembly=mscorlib">Project links</sys:String>
+    <sys:String x:Key="AboutWebsite" xmlns:sys="clr-namespace:System;assembly=mscorlib">Project website</sys:String>
+    <sys:String x:Key="AboutSourceCode" xmlns:sys="clr-namespace:System;assembly=mscorlib">Source code</sys:String>
+    <sys:String x:Key="AboutClose" xmlns:sys="clr-namespace:System;assembly=mscorlib">Close</sys:String>
+    <sys:String x:Key="ReportHeader" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace - Storage report</sys:String>
+    <sys:String x:Key="ReportScanPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan path</sys:String>
+    <sys:String x:Key="ReportStart" xmlns:sys="clr-namespace:System;assembly=mscorlib">Start</sys:String>
+    <sys:String x:Key="ReportEnd" xmlns:sys="clr-namespace:System;assembly=mscorlib">End</sys:String>
+    <sys:String x:Key="ReportDuration" xmlns:sys="clr-namespace:System;assembly=mscorlib">Duration</sys:String>
+    <sys:String x:Key="ReportStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">Status</sys:String>
+    <sys:String x:Key="ReportTotalSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">Total size</sys:String>
+    <sys:String x:Key="ReportErrorCount" xmlns:sys="clr-namespace:System;assembly=mscorlib">Error count</sys:String>
+    <sys:String x:Key="ReportDirectoryOverview" xmlns:sys="clr-namespace:System;assembly=mscorlib">Directory overview</sys:String>
+    <sys:String x:Key="ReportErrors" xmlns:sys="clr-namespace:System;assembly=mscorlib">Errors</sys:String>
+    <sys:String x:Key="ReportCancelledStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">SCAN CANCELLED - RESULT INCOMPLETE</sys:String>
+    <sys:String x:Key="ReportCompletedStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">SCAN COMPLETED</sys:String>
+    <sys:String x:Key="ReportCsvHeader" xmlns:sys="clr-namespace:System;assembly=mscorlib">Path;ParentPath;Name;Level;Size;SizeBytes;Files;Folders;Percentage;Status;LastModified</sys:String>
+    <sys:String x:Key="ReportCsvErrorPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Path</sys:String>
+    <sys:String x:Key="ReportCsvErrorMessage" xmlns:sys="clr-namespace:System;assembly=mscorlib">Message</sys:String>
+    <sys:String x:Key="ReportErrorPathLabel" xmlns:sys="clr-namespace:System;assembly=mscorlib">Path</sys:String>
+    <sys:String x:Key="ReportErrorMessageLabel" xmlns:sys="clr-namespace:System;assembly=mscorlib">Message</sys:String>
+    <sys:String x:Key="ReportStatusOk" xmlns:sys="clr-namespace:System;assembly=mscorlib">OK</sys:String>
+    <sys:String x:Key="ReportStatusCancelled" xmlns:sys="clr-namespace:System;assembly=mscorlib">Cancelled</sys:String>
+</ResourceDictionary>

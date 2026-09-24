@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
+using ServerSpace.UI.Localization;
 
 namespace ServerSpace.UI;
 
@@ -13,7 +14,7 @@ public partial class AboutWindow : Window
 
         Assembly assembly = Assembly.GetEntryAssembly() ?? typeof(AboutWindow).Assembly;
         string version = assembly.GetName().Version?.ToString(3) ?? "Unbekannt";
-        VersionTextBlock.Text = $"Version {version}";
+        VersionTextBlock.Text = LocalizationManager.Format("AboutVersion", version);
 
         ConfigureLink(ProjectWebsiteButton, AppLinks.ProjectWebsite);
         ConfigureLink(SourceCodeButton, AppLinks.SourceCodeUrl);
@@ -38,7 +39,7 @@ public partial class AboutWindow : Window
         if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
             || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
         {
-            ShowLinkError("Der Link ist derzeit nicht verfügbar.");
+            ShowLinkError(LocalizationManager.GetString("ErrorLinkUnavailable"));
             return;
         }
 
@@ -52,7 +53,7 @@ public partial class AboutWindow : Window
         }
         catch (Exception exception)
         {
-            ShowLinkError($"Der Link konnte nicht geöffnet werden: {exception.Message}");
+            ShowLinkError(LocalizationManager.Format("ErrorLinkOpen", exception.Message));
         }
     }
 
@@ -68,5 +69,5 @@ public partial class AboutWindow : Window
     }
 
     private void ShowLinkError(string message) =>
-        System.Windows.MessageBox.Show(this, message, "ServerSpace", MessageBoxButton.OK, MessageBoxImage.Information);
+        System.Windows.MessageBox.Show(this, message, LocalizationManager.GetString("DialogReportTitle"), MessageBoxButton.OK, MessageBoxImage.Information);
 }
