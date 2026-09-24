@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using ServerSpace.Core.Models;
 using ServerSpace.UI.Localization;
@@ -84,46 +85,83 @@ public sealed class ReportExporter
     private static void ExportText(ScanResult scanResult, string filePath)
     {
         using StreamWriter writer = CreateWriter(filePath);
-        string status = LocalizationManager.GetString(scanResult.WasCancelled ? "ReportCancelledStatus" : "ReportCompletedStatus");
+        string version = (Assembly.GetEntryAssembly() ?? typeof(ReportExporter).Assembly)
+            .GetName().Version?.ToString(3) ?? "Unbekannt";
+        string status = LocalizationManager.GetString(scanResult.WasCancelled
+            ? "ReportStatusCancelled"
+            : "ReportStatusCompleted");
 
-        writer.WriteLine(LocalizationManager.GetString("ReportHeader"));
+        writer.WriteLine(LocalizationManager.GetString("ReportTitle"));
+        writer.WriteLine(LocalizationManager.GetString("ReportSubtitle"));
+        writer.WriteLine(LocalizationManager.Format("AboutVersion", version));
+        WriteSeparator(writer);
         writer.WriteLine();
-        writer.WriteLine($"{LocalizationManager.GetString("ReportScanPath")}: {scanResult.Root.FullPath}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportStart")}: {scanResult.StartedAt:yyyy-MM-dd HH:mm:ss}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportEnd")}: {scanResult.FinishedAt:yyyy-MM-dd HH:mm:ss}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportDuration")}: {scanResult.Duration}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportStatus")}: {status}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportTotalSize")}: {FormatBytes(scanResult.TotalBytes)}");
-        writer.WriteLine($"{LocalizationManager.GetString("StatFiles")}: {scanResult.TotalFiles.ToString("N0", CultureInfo.CurrentCulture)}");
-        writer.WriteLine($"{LocalizationManager.GetString("StatFolders")}: {scanResult.TotalDirectories.ToString("N0", CultureInfo.CurrentCulture)}");
-        writer.WriteLine($"{LocalizationManager.GetString("ReportErrorCount")}: {scanResult.Errors.Count.ToString("N0", CultureInfo.CurrentCulture)}");
+        writer.WriteLine(LocalizationManager.GetString("ReportSummary"));
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportScanPath"), scanResult.Root.FullPath);
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportStatus"), status);
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportStarted"), scanResult.StartedAt.ToString("G", CultureInfo.CurrentCulture));
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportFinished"), scanResult.FinishedAt.ToString("G", CultureInfo.CurrentCulture));
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportDuration"), FormatDuration(scanResult.Duration));
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportTotalSize"), FormatBytes(scanResult.TotalBytes));
+        WriteTextLabel(writer, LocalizationManager.GetString("StatFiles"), scanResult.TotalFiles.ToString("N0", CultureInfo.CurrentCulture));
+        WriteTextLabel(writer, LocalizationManager.GetString("StatFolders"), scanResult.TotalDirectories.ToString("N0", CultureInfo.CurrentCulture));
+        WriteTextLabel(writer, LocalizationManager.GetString("ReportErrorCount"), scanResult.Errors.Count.ToString("N0", CultureInfo.CurrentCulture));
+        if (scanResult.WasCancelled)
+        {
+            writer.WriteLine(LocalizationManager.GetString("ReportPartialNote"));
+        }
+
+        WriteSeparator(writer);
         writer.WriteLine();
-        writer.WriteLine(LocalizationManager.GetString("ReportDirectoryOverview"));
+        writer.WriteLine(LocalizationManager.GetString("ReportDirectoryStructure"));
         writer.WriteLine();
 
         WriteTextDirectory(writer, scanResult.Root, 0);
 
         if (scanResult.Errors.Count > 0)
         {
+            WriteSeparator(writer);
             writer.WriteLine();
-            writer.WriteLine(LocalizationManager.GetString("ReportErrors"));
-            foreach (ScanError error in scanResult.Errors)
+            writer.WriteLine(LocalizationManager.GetString("ReportScanErrors"));
+            for (int i = 0; i < scanResult.Errors.Count; i++)
             {
-                writer.WriteLine($"{LocalizationManager.GetString("ReportErrorPathLabel")}: {error.Path}");
-                writer.WriteLine($"{LocalizationManager.GetString("ReportErrorMessageLabel")}: {error.Message}");
+                ScanError error = scanResult.Errors[i];
+                writer.WriteLine();
+                writer.WriteLine($"{i + 1}. {error.Path}");
+                writer.WriteLine($"   {error.Message}");
                 writer.WriteLine();
             }
         }
+
+        WriteSeparator(writer);
+        writer.WriteLine();
+        writer.WriteLine(LocalizationManager.Format("ReportGeneratedBy", version));
     }
 
     private static void WriteTextDirectory(StreamWriter writer, DirectoryNode node, int depth)
     {
-        writer.WriteLine($"{new string(' ', depth * 2)}{node.Name}  {FormatBytes(node.SizeBytes)}");
+        string name = depth == 0 ? node.FullPath : node.Name;
+        string linePrefix = new string(' ', depth * 2) + name;
+        const int sizeColumn = 58;
+        writer.WriteLine(linePrefix.Length < sizeColumn
+            ? linePrefix.PadRight(sizeColumn) + FormatBytes(node.SizeBytes)
+            : $"{linePrefix}  {FormatBytes(node.SizeBytes)}");
         foreach (DirectoryNode child in SortedChildren(node))
         {
             WriteTextDirectory(writer, child, depth + 1);
         }
     }
+
+    private static void WriteTextLabel(StreamWriter writer, string label, string value) =>
+        writer.WriteLine($"{label}:".PadRight(18) + value);
+
+    private static void WriteSeparator(StreamWriter writer) =>
+        writer.WriteLine(new string('=', 60));
+
+    private static string FormatDuration(TimeSpan duration) =>
+        duration.TotalHours >= 24
+            ? duration.ToString(@"d\.hh\:mm\:ss", CultureInfo.InvariantCulture)
+            : duration.ToString(@"hh\:mm\:ss", CultureInfo.InvariantCulture);
 
     private static IEnumerable<DirectoryNode> SortedChildren(DirectoryNode node)
     {

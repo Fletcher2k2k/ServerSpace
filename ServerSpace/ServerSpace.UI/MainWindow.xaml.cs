@@ -43,13 +43,13 @@ public partial class MainWindow : Window
     private ScanProgress? _latestProgress;
     private LiveDirectory? _rootNode;
     private ScanResult? _lastScanResult;
-    private string? _reportFilePath;
     private bool _scanRunning;
     private bool _scanFinished;
     private SortColumn _sortColumn = SortColumn.Size;
     private bool _sortDescending = true;
     private bool _hasUserSortSelection;
     private bool _automaticLiveSizeSort;
+    private bool _menuNavigationActive;
     private int _sortVersion = 1;
     private bool _filterActive;
     private bool _filterDirty;
@@ -89,11 +89,78 @@ public partial class MainWindow : Window
 
     private void AboutMenuItem_Click(object sender, RoutedEventArgs e)
     {
+        DeactivateMenuNavigation();
         AboutWindow aboutWindow = new()
         {
             Owner = this
         };
         aboutWindow.ShowDialog();
+    }
+
+    private void TopLevelSubmenuOpened(object sender, RoutedEventArgs e)
+    {
+        if (ReferenceEquals(sender, e.OriginalSource))
+        {
+            _menuNavigationActive = true;
+        }
+    }
+
+    private void TopLevelSubmenuClosed(object sender, RoutedEventArgs e)
+    {
+        if (!MainMenuItem.IsMouseOver && !ViewMenuItem.IsMouseOver && !AboutMenuItem.IsMouseOver)
+        {
+            _menuNavigationActive = false;
+        }
+    }
+
+    private void TopLevelMenuItem_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (!_menuNavigationActive || sender is not System.Windows.Controls.MenuItem item)
+        {
+            return;
+        }
+
+        item.IsSubmenuOpen = true;
+    }
+
+    private void AboutMenuItem_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (_menuNavigationActive)
+        {
+            MainMenuItem.IsSubmenuOpen = false;
+            ViewMenuItem.IsSubmenuOpen = false;
+        }
+    }
+
+    private void MainMenu_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is not DependencyObject source || !IsInsideMainMenu(source))
+        {
+            _menuNavigationActive = false;
+        }
+    }
+
+    private bool IsInsideMainMenu(DependencyObject source)
+    {
+        DependencyObject? current = source;
+        while (current is not null)
+        {
+            if (ReferenceEquals(current, MainMenu))
+            {
+                return true;
+            }
+
+            current = VisualTreeHelper.GetParent(current);
+        }
+
+        return false;
+    }
+
+    private void DeactivateMenuNavigation()
+    {
+        _menuNavigationActive = false;
+        MainMenuItem.IsSubmenuOpen = false;
+        ViewMenuItem.IsSubmenuOpen = false;
     }
 
     private void LanguageMenuItem_Click(object sender, RoutedEventArgs e)
@@ -309,6 +376,11 @@ public partial class MainWindow : Window
 
     private void BrowseButton_Click(object sender, RoutedEventArgs e)
     {
+        TrySelectScanPath();
+    }
+
+    private bool TrySelectScanPath()
+    {
         using Forms.FolderBrowserDialog dialog = new()
         {
             Description = LocalizationManager.GetString("BrowseDescription"),
@@ -319,29 +391,21 @@ public partial class MainWindow : Window
         if (dialog.ShowDialog() == Forms.DialogResult.OK)
         {
             PathTextBox.Text = dialog.SelectedPath;
+            return true;
         }
+
+        return false;
     }
 
     private void SaveReportMenuItem_Click(object sender, RoutedEventArgs e)
     {
-        SaveReport(saveAs: false);
+        SaveReport();
     }
 
-    private void SaveReportAsMenuItem_Click(object sender, RoutedEventArgs e)
-    {
-        SaveReport(saveAs: true);
-    }
-
-    private void SaveReport(bool saveAs)
+    private void SaveReport()
     {
         if (_lastScanResult is null)
         {
-            return;
-        }
-
-        if (!saveAs && !string.IsNullOrWhiteSpace(_reportFilePath))
-        {
-            ExportReport(_reportFilePath);
             return;
         }
 
@@ -364,8 +428,7 @@ public partial class MainWindow : Window
 
         try
         {
-            _reportFilePath = dialog.FileName;
-            ExportReport(_reportFilePath);
+            ExportReport(dialog.FileName);
         }
         catch (Exception exception)
         {
@@ -395,16 +458,14 @@ public partial class MainWindow : Window
 
     private void MainWindow_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
-        if (e.Key == System.Windows.Input.Key.S
-            && System.Windows.Input.Keyboard.Modifiers == (System.Windows.Input.ModifierKeys.Control | System.Windows.Input.ModifierKeys.Shift))
+        if (e.Key == System.Windows.Input.Key.Escape)
         {
-            SaveReport(saveAs: true);
-            e.Handled = true;
+            DeactivateMenuNavigation();
         }
         else if (e.Key == System.Windows.Input.Key.S
                  && System.Windows.Input.Keyboard.Modifiers == System.Windows.Input.ModifierKeys.Control)
         {
-            SaveReport(saveAs: false);
+            SaveReport();
             e.Handled = true;
         }
     }
@@ -419,8 +480,12 @@ public partial class MainWindow : Window
         string path = PathTextBox.Text.Trim();
         if (string.IsNullOrWhiteSpace(path))
         {
-            ShowError(LocalizationManager.GetString("ErrorInvalidPath"));
-            return;
+            if (!TrySelectScanPath())
+            {
+                return;
+            }
+
+            path = PathTextBox.Text.Trim();
         }
 
         SetScanningState(isScanning: true);
@@ -1084,13 +1149,11 @@ public partial class MainWindow : Window
         CancelButton.IsEnabled = isScanning;
         ScanProgressBar.IsIndeterminate = isScanning;
         SaveReportMenuItem.IsEnabled = !isScanning && _lastScanResult is not null;
-        SaveReportAsMenuItem.IsEnabled = !isScanning && _lastScanResult is not null;
     }
 
     private void ResetScanDisplay()
     {
         _lastScanResult = null;
-        _reportFilePath = null;
         _visibleRows.Clear();
         _visibleRowsByPath.Clear();
         _expandedNodes.Clear();
@@ -1103,7 +1166,6 @@ public partial class MainWindow : Window
         ErrorsTextBlock.Text = "0";
         ResultTextBlock.Text = LocalizationManager.GetString("StatusScanning");
         SaveReportMenuItem.IsEnabled = false;
-        SaveReportAsMenuItem.IsEnabled = false;
     }
 
     private void ShowError(string message)

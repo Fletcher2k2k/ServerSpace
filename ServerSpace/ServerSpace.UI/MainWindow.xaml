@@ -11,22 +11,18 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Menu Grid.Row="0" HorizontalAlignment="Stretch">
-            <MenuItem Header="{DynamicResource MenuMain}">
+        <Menu x:Name="MainMenu" Grid.Row="0" HorizontalAlignment="Stretch"
+              PreviewMouseDown="MainMenu_PreviewMouseDown">
+            <MenuItem x:Name="MainMenuItem" Header="{DynamicResource MenuMain}"
+                      MouseEnter="TopLevelMenuItem_MouseEnter" SubmenuOpened="TopLevelSubmenuOpened"
+                      SubmenuClosed="TopLevelSubmenuClosed">
                 <MenuItem x:Name="SaveReportMenuItem" Header="{DynamicResource MenuSaveReport}" InputGestureText="Ctrl+S"
                           Click="SaveReportMenuItem_Click" IsEnabled="False" />
-                <MenuItem x:Name="SaveReportAsMenuItem" Header="{DynamicResource MenuSaveReportAs}" InputGestureText="Ctrl+Shift+S"
-                          Click="SaveReportAsMenuItem_Click" IsEnabled="False" />
-                <MenuItem Header="{DynamicResource MenuLanguage}">
-                    <MenuItem x:Name="GermanLanguageMenuItem" Header="{DynamicResource LanguageGerman}" IsCheckable="True"
-                              Click="LanguageMenuItem_Click" Tag="German" />
-                    <MenuItem x:Name="EnglishLanguageMenuItem" Header="{DynamicResource LanguageEnglish}" IsCheckable="True"
-                              Click="LanguageMenuItem_Click" Tag="English" />
-                </MenuItem>
-                <Separator />
                 <MenuItem Header="{DynamicResource MenuExit}" InputGestureText="Alt+F4" Click="ExitMenuItem_Click" />
             </MenuItem>
-            <MenuItem Header="{DynamicResource MenuView}">
+            <MenuItem x:Name="ViewMenuItem" Header="{DynamicResource MenuView}"
+                      MouseEnter="TopLevelMenuItem_MouseEnter" SubmenuOpened="TopLevelSubmenuOpened"
+                      SubmenuClosed="TopLevelSubmenuClosed">
                 <MenuItem x:Name="FilterMenuItem" Header="{DynamicResource MenuFilter}" IsCheckable="True"
                           Checked="FilterMenuItem_Checked" Unchecked="FilterMenuItem_Unchecked" />
                 <MenuItem Header="{DynamicResource MenuColumns}">
@@ -43,8 +39,15 @@
                     <MenuItem Header="{DynamicResource ColumnPercentage}" IsCheckable="True" IsChecked="True" Tag="5"
                               Click="ColumnMenuItem_Click" />
                 </MenuItem>
+                <MenuItem Header="{DynamicResource MenuLanguage}">
+                    <MenuItem x:Name="GermanLanguageMenuItem" Header="{DynamicResource LanguageGerman}" IsCheckable="True"
+                              Click="LanguageMenuItem_Click" Tag="German" />
+                    <MenuItem x:Name="EnglishLanguageMenuItem" Header="{DynamicResource LanguageEnglish}" IsCheckable="True"
+                              Click="LanguageMenuItem_Click" Tag="English" />
+                </MenuItem>
             </MenuItem>
-            <MenuItem Header="{DynamicResource MenuAbout}" Click="AboutMenuItem_Click" />
+            <MenuItem x:Name="AboutMenuItem" Header="{DynamicResource MenuAbout}"
+                      MouseEnter="AboutMenuItem_MouseEnter" Click="AboutMenuItem_Click" />
         </Menu>
 
         <Grid Grid.Row="1" Margin="18">

@@ -2,8 +2,7 @@
     <sys:String x:Key="MenuMain" xmlns:sys="clr-namespace:System;assembly=System.Runtime">Menü</sys:String>
     <sys:String x:Key="MenuView" xmlns:sys="clr-namespace:System;assembly=mscorlib">Ansicht</sys:String>
     <sys:String x:Key="MenuAbout" xmlns:sys="clr-namespace:System;assembly=mscorlib">Info</sys:String>
-    <sys:String x:Key="MenuSaveReport" xmlns:sys="clr-namespace:System;assembly=mscorlib">Bericht speichern</sys:String>
-    <sys:String x:Key="MenuSaveReportAs" xmlns:sys="clr-namespace:System;assembly=mscorlib">Bericht speichern unter...</sys:String>
+    <sys:String x:Key="MenuSaveReport" xmlns:sys="clr-namespace:System;assembly=mscorlib">Bericht speichern...</sys:String>
     <sys:String x:Key="MenuLanguage" xmlns:sys="clr-namespace:System;assembly=mscorlib">Sprache</sys:String>
     <sys:String x:Key="MenuExit" xmlns:sys="clr-namespace:System;assembly=mscorlib">Beenden</sys:String>
     <sys:String x:Key="LanguageGerman" xmlns:sys="clr-namespace:System;assembly=mscorlib">Deutsch</sys:String>
@@ -40,7 +39,6 @@
     <sys:String x:Key="StatusAbortPending" xmlns:sys="clr-namespace:System;assembly=mscorlib">Abbruch wird ausgeführt ...</sys:String>
     <sys:String x:Key="StatusCompleted" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan abgeschlossen</sys:String>
     <sys:String x:Key="StatusCancelled" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan abgebrochen</sys:String>
-    <sys:String x:Key="ErrorInvalidPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Bitte geben Sie einen Startpfad ein.</sys:String>
     <sys:String x:Key="ErrorPrefix" xmlns:sys="clr-namespace:System;assembly=mscorlib">Fehler: {0}</sys:String>
     <sys:String x:Key="ErrorReportSave" xmlns:sys="clr-namespace:System;assembly=mscorlib">Der Bericht konnte nicht gespeichert werden: {0}</sys:String>
     <sys:String x:Key="ReportSaved" xmlns:sys="clr-namespace:System;assembly=mscorlib">Bericht erfolgreich gespeichert.</sys:String>
@@ -67,23 +65,25 @@
     <sys:String x:Key="AboutWebsite" xmlns:sys="clr-namespace:System;assembly=mscorlib">Projektwebsite</sys:String>
     <sys:String x:Key="AboutSourceCode" xmlns:sys="clr-namespace:System;assembly=mscorlib">Quellcode</sys:String>
     <sys:String x:Key="AboutClose" xmlns:sys="clr-namespace:System;assembly=mscorlib">Schließen</sys:String>
-    <sys:String x:Key="ReportHeader" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace - Speicherbericht</sys:String>
+    <sys:String x:Key="ReportTitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace</sys:String>
+    <sys:String x:Key="ReportSubtitle" xmlns:sys="clr-namespace:System;assembly=mscorlib">Speicheranalyse-Bericht</sys:String>
+    <sys:String x:Key="ReportSummary" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scan-Zusammenfassung</sys:String>
     <sys:String x:Key="ReportScanPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scanpfad</sys:String>
-    <sys:String x:Key="ReportStart" xmlns:sys="clr-namespace:System;assembly=mscorlib">Startzeit</sys:String>
-    <sys:String x:Key="ReportEnd" xmlns:sys="clr-namespace:System;assembly=mscorlib">Endzeit</sys:String>
+    <sys:String x:Key="ReportStarted" xmlns:sys="clr-namespace:System;assembly=mscorlib">Gestartet</sys:String>
+    <sys:String x:Key="ReportFinished" xmlns:sys="clr-namespace:System;assembly=mscorlib">Beendet</sys:String>
     <sys:String x:Key="ReportDuration" xmlns:sys="clr-namespace:System;assembly=mscorlib">Dauer</sys:String>
     <sys:String x:Key="ReportStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">Status</sys:String>
     <sys:String x:Key="ReportTotalSize" xmlns:sys="clr-namespace:System;assembly=mscorlib">Gesamtgröße</sys:String>
     <sys:String x:Key="ReportErrorCount" xmlns:sys="clr-namespace:System;assembly=mscorlib">Fehleranzahl</sys:String>
-    <sys:String x:Key="ReportDirectoryOverview" xmlns:sys="clr-namespace:System;assembly=mscorlib">Verzeichnisübersicht</sys:String>
+    <sys:String x:Key="ReportDirectoryStructure" xmlns:sys="clr-namespace:System;assembly=mscorlib">Ordnerstruktur</sys:String>
+    <sys:String x:Key="ReportScanErrors" xmlns:sys="clr-namespace:System;assembly=mscorlib">Scanfehler</sys:String>
+    <sys:String x:Key="ReportPartialNote" xmlns:sys="clr-namespace:System;assembly=mscorlib">Hinweis: Dieser Bericht enthält einen unvollständigen Scanstand.</sys:String>
+    <sys:String x:Key="ReportGeneratedBy" xmlns:sys="clr-namespace:System;assembly=mscorlib">Erstellt mit ServerSpace {0}</sys:String>
+    <sys:String x:Key="ReportStatusCompleted" xmlns:sys="clr-namespace:System;assembly=mscorlib">Abgeschlossen</sys:String>
     <sys:String x:Key="ReportErrors" xmlns:sys="clr-namespace:System;assembly=mscorlib">Fehler</sys:String>
-    <sys:String x:Key="ReportCancelledStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">SCAN ABGEBROCHEN - ERGEBNIS UNVOLLSTÄNDIG</sys:String>
-    <sys:String x:Key="ReportCompletedStatus" xmlns:sys="clr-namespace:System;assembly=mscorlib">SCAN ABGESCHLOSSEN</sys:String>
     <sys:String x:Key="ReportCsvHeader" xmlns:sys="clr-namespace:System;assembly=mscorlib">Pfad;ParentPfad;Name;Ebene;Größe;SizeBytes;Dateien;Ordner;AnteilProzent;Status;LetzteÄnderung</sys:String>
     <sys:String x:Key="ReportCsvErrorPath" xmlns:sys="clr-namespace:System;assembly=mscorlib">Pfad</sys:String>
     <sys:String x:Key="ReportCsvErrorMessage" xmlns:sys="clr-namespace:System;assembly=mscorlib">Meldung</sys:String>
-    <sys:String x:Key="ReportErrorPathLabel" xmlns:sys="clr-namespace:System;assembly=mscorlib">Pfad</sys:String>
-    <sys:String x:Key="ReportErrorMessageLabel" xmlns:sys="clr-namespace:System;assembly=mscorlib">Meldung</sys:String>
     <sys:String x:Key="ReportStatusOk" xmlns:sys="clr-namespace:System;assembly=mscorlib">OK</sys:String>
     <sys:String x:Key="ReportStatusCancelled" xmlns:sys="clr-namespace:System;assembly=mscorlib">Abgebrochen</sys:String>
 </ResourceDictionary>
