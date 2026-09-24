@@ -66,7 +66,7 @@ On the first start, ServerSpace uses the Windows user interface language where s
 
 Prebuilt releases are available here:
 
-https://github.com/Fletcher2k2k/ServerSpace/releases
+https://github.com/edvfux/ServerSpace/releases
 
 Download ServerSpace.exe from the desired release.
 
@@ -331,22 +331,17 @@ ServerSpace does not require administrative privileges for normal operation.
 
 ---
 
-## Code signing policy
+## Code signing
 
-Free code signing provided by SignPath.io, certificate by SignPath Foundation.
+ServerSpace releases are currently distributed without a commercial code-signing certificate.
 
-Project roles:
+Because ServerSpace is a new open source project, Windows SmartScreen may display a warning when running downloaded releases.
 
-- Authors: Jürgen Schön
-- Reviewers: Jürgen Schön
-- Approvers: Jürgen Schön
+Release binaries include a published SHA256 checksum where available so users can verify file integrity.
 
-The first public release, ServerSpace 0.1.0, was published before code signing was introduced.
-
-Future releases are intended to use a reproducible and verifiable build and signing process.
+Code signing may be introduced in a future release.
 
 ---
-
 ## Open Source
 
 ServerSpace is free and open source software.
@@ -423,7 +418,7 @@ Development on the main branch may contain features and improvements that are no
 
 GitHub:
 
-https://github.com/Fletcher2k2k/ServerSpace
+https://github.com/edvfux/ServerSpace
 
 The repository contains:
 
@@ -439,7 +434,7 @@ The repository contains:
 
 Official releases are published here:
 
-https://github.com/Fletcher2k2k/ServerSpace/releases
+https://github.com/edvfux/ServerSpace/releases
 
 For release builds, verify the published SHA256 checksum where provided.
 
