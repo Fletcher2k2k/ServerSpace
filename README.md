@@ -18,7 +18,7 @@ ServerSpace is free and open source.
 - Live scan progress
 - Hierarchical folder analysis
 - Folder size visualization
-- Numeric sorting by size, files, folders, percentage and name
+- Column sorting by name, size, files, folders and percentage
 - Largest folders shown first by default
 - Expand and collapse directory structures
 - Virtualized result view for large directory trees
@@ -36,6 +36,34 @@ ServerSpace is free and open source.
 - German and English user interface
 - Runtime language switching
 - Persistent language and window settings
+- ServerSpace application branding and icon
+- Integrated Info / About window with project and license links
+
+---
+
+## What's new in 0.2.0
+
+ServerSpace 0.2.0 focuses on localization, application polish and persistent user settings.
+
+Highlights include:
+
+- German and English user interface
+- Runtime language switching
+- Automatic initial language selection
+- Persistent language setting
+- Persistent window position and size
+- Restored maximized window state
+- Validation of stored window coordinates
+- ServerSpace application icon and branding
+- Updated Info / About window
+- Direct project, organization and MIT License links
+- Improved application menu
+- Configurable result columns
+- Additional interface and usability improvements
+- Updated project documentation
+- Updated EDVFUX repository links
+
+The underlying scanning architecture remains focused on predictable, resource-conscious operation and responsive handling of large directory structures.
 
 ---
 
@@ -60,17 +88,21 @@ The selected language is stored locally and restored automatically on the next a
 
 On the first start, ServerSpace uses the Windows user interface language where supported.
 
+If the Windows user interface language is not German, ServerSpace uses English by default.
+
 ---
 
 ## Download
 
-Prebuilt releases are available here:
+Official releases are available here:
 
 https://github.com/edvfux/ServerSpace/releases
 
 Download ServerSpace.exe from the desired release.
 
 No installer is required.
+
+ServerSpace is distributed as a portable Windows executable.
 
 ---
 
@@ -100,16 +132,12 @@ A separate .NET installation is not required.
 Example paths:
 
 C:\Windows
-
 D:\Data
-
 Z:\
-
 \\FILESERVER\Data
-
 \\FILESERVER\Data\Customers
 
-Network paths are accessed using the credentials of the Windows user running ServerSpace.
+Network paths are accessed using the credentials and permissions of the Windows user running ServerSpace.
 
 ---
 
@@ -129,7 +157,9 @@ During a scan, ServerSpace collects information such as:
 
 Reparse points, junctions and symbolic links are not recursively followed.
 
-File-system errors such as inaccessible directories do not terminate the complete scan.
+This prevents directory loops and unintended traversal into linked directory structures.
+
+File-system errors such as inaccessible or disappearing directories do not terminate the complete scan.
 
 ServerSpace continues scanning accessible locations and records encountered errors.
 
@@ -147,14 +177,108 @@ ServerSpace supports:
 Examples:
 
 Z:\
-
 \\SERVER\Share
-
 \\SERVER\Share\Department
 
 Network access uses the permissions and credentials of the Windows user running ServerSpace.
 
-ServerSpace does not provide a separate credential-management system.
+ServerSpace does not provide or store a separate network credential-management system.
+
+If the current Windows user cannot access a network location, ServerSpace does not attempt to bypass those permissions.
+
+---
+
+## Scan behavior
+
+The scanner is designed to operate in a controlled and resource-conscious manner.
+
+ServerSpace:
+
+- Uses the current Windows security context
+- Processes file-system metadata only
+- Supports cancellation
+- Continues after recoverable file-system errors
+- Records scan errors for later review
+- Avoids recursive traversal of reparse points
+- Updates visible scan information while scanning
+- Maintains the logical directory tree independently from the visible user interface
+
+A cancelled scan can still be used to create a partial report from the information collected up to that point.
+
+---
+
+## Result view
+
+ServerSpace uses a virtualized flat result view instead of creating a graphical control for every scanned directory.
+
+Directories are displayed hierarchically using indentation.
+
+Expanding a directory adds its direct children to the visible result list.
+
+Collapsing a directory removes its visible descendants without deleting the underlying scan data.
+
+This allows ServerSpace to work with large directory structures while keeping the graphical interface responsive.
+
+---
+
+## Sorting
+
+The result view can be sorted by:
+
+- Name
+- Size
+- Files
+- Folders
+- Percentage
+
+Directory hierarchy is preserved while sorting.
+
+The default view shows larger directories first.
+
+---
+
+## Filters
+
+ServerSpace currently provides:
+
+- Name filtering
+- Minimum-size filtering
+- Hide empty folders
+
+Minimum-size filtering supports size units such as:
+
+- MB
+- GB
+- TB
+
+Filtering affects the visible result view.
+
+The complete logical scan tree remains available independently from active UI filters.
+
+---
+
+## Columns
+
+Result columns can be enabled or disabled through the View menu.
+
+Available information includes:
+
+- Name
+- Graphical size bar
+- Size
+- Files
+- Folders
+- Percentage
+
+The Name column remains available as the primary directory representation.
+
+---
+
+## Windows Explorer integration
+
+Directories can be opened directly in Windows Explorer.
+
+Explorer integration is available through the application interface for scanned directories.
 
 ---
 
@@ -163,6 +287,10 @@ ServerSpace does not provide a separate credential-management system.
 ServerSpace can export the complete logical scan result as CSV or TXT.
 
 Active UI filters do not restrict the exported scan tree.
+
+Cancelled scans can also be exported as partial reports.
+
+Report labels follow the currently selected ServerSpace language.
 
 ### CSV
 
@@ -208,9 +336,7 @@ TXT reports provide a human-readable hierarchical overview containing:
 - Directory hierarchy
 - Scan errors
 
-Cancelled scans can also be exported as partial reports.
-
-Report labels follow the currently selected application language.
+Cancelled scans can be exported as partial TXT reports.
 
 ---
 
@@ -239,11 +365,9 @@ This avoids creating thousands of WPF controls for directories that are not curr
 
 ServerSpace is divided into separate components:
 
-ServerSpace.Core
-
-ServerSpace.Scanner
-
-ServerSpace.UI
+- ServerSpace.Core
+- ServerSpace.Scanner
+- ServerSpace.UI
 
 ### ServerSpace.Core
 
@@ -266,6 +390,7 @@ Contains:
 - Report export
 - Window and language settings
 - Application branding
+- Info / About interface
 
 ---
 
@@ -291,7 +416,9 @@ The settings currently include:
 - Selected language
 - Window position
 - Window size
-- Window state
+- Maximized window state
+
+A minimized window state is not restored on application startup.
 
 If the settings file is missing or invalid, ServerSpace falls back to safe defaults.
 
@@ -303,17 +430,38 @@ Stored window coordinates are validated so the application does not reopen compl
 
 ServerSpace does not include telemetry, analytics or tracking.
 
-ServerSpace does not automatically upload scan results, file metadata or file contents to external services.
+ServerSpace does not automatically upload scan results, file metadata, reports or file contents to external services.
 
 File contents are not read during storage analysis.
 
-Network communication only occurs when the user explicitly selects or enters a network path, mapped network drive or UNC share.
+ServerSpace analyzes file-system metadata only.
+
+When the user scans a mapped network drive or UNC path, ServerSpace accesses only the network location selected by the user and uses the permissions and credentials of the current Windows user.
+
+ServerSpace does not store separate network credentials.
 
 CSV and TXT reports are stored locally at a location selected by the user.
 
-Application settings are stored locally on the user's computer.
+Reports may contain information such as:
 
-ServerSpace will not transfer information to other networked systems unless specifically requested by the user through access to a user-selected network path or share.
+- Directory paths
+- Directory names
+- File and directory counts
+- Directory sizes
+- Timestamps
+- Scan-error information
+
+Depending on the scanned environment, report information may be sensitive and should be handled accordingly.
+
+Application settings are stored locally under:
+
+%LOCALAPPDATA%\ServerSpace\settings.json
+
+ServerSpace does not make background Internet connections for telemetry, analytics or tracking.
+
+Links opened from ServerSpace, such as project, organization or license links, are opened in the user's default web browser.
+
+Any resulting Internet connection is handled by that browser.
 
 ---
 
@@ -327,26 +475,31 @@ ServerSpace does not attempt to bypass Windows file-system permissions.
 
 Network shares are accessed using the user's existing Windows credentials.
 
+ServerSpace does not store separate network-share credentials.
+
 ServerSpace does not require administrative privileges for normal operation.
+
+Reparse points, junctions and symbolic links are not recursively followed during normal scanning.
 
 ---
 
 ## Code signing
 
-ServerSpace releases are currently distributed without a commercial code-signing certificate.
+ServerSpace releases are currently distributed unsigned.
 
 Because ServerSpace is a new open source project, Windows SmartScreen may display a warning when running downloaded releases.
 
 Release binaries include a published SHA256 checksum where available so users can verify file integrity.
 
-Code signing may be introduced in a future release.
+Digitally signed Windows releases are planned for a future version.
 
 ---
-## Open Source
 
-ServerSpace is free and open source software.
+## License
 
-The source code is released under the MIT License.
+ServerSpace is free and open source software released under the MIT License.
+
+Copyright © 2026 Jürgen Schön.
 
 See:
 
@@ -386,6 +539,7 @@ Concept, architecture, feature selection, implementation decisions, testing and 
 
 Possible future additions include:
 
+- Digitally signed Windows releases
 - Large-file analysis
 - File-type analysis
 - Additional languages
@@ -404,19 +558,19 @@ The roadmap is intentionally open and may change as the project develops.
 
 ---
 
-## Current public release
+## Current release
 
-ServerSpace 0.1.0
+ServerSpace 0.2.0
 
-The first public release provides the initial Windows storage-analysis functionality.
+ServerSpace 0.2.0 expands the original storage-analysis functionality with localization, persistent settings, ServerSpace branding and additional user-interface improvements.
 
-Development on the main branch may contain features and improvements that are not yet included in the latest public release.
+The application remains a portable, self-contained Windows x64 executable and does not require a separate .NET installation.
 
 ---
 
 ## Repository
 
-GitHub:
+Official GitHub repository:
 
 https://github.com/edvfux/ServerSpace
 
@@ -436,12 +590,6 @@ Official releases are published here:
 
 https://github.com/edvfux/ServerSpace/releases
 
-For release builds, verify the published SHA256 checksum where provided.
+Release builds may include a published SHA256 checksum for integrity verification.
 
----
-
-## License
-
-MIT License
-
-Copyright © 2026 Jürgen Schön
+ServerSpace 0.2.0 is distributed as a portable Windows x64 executable.

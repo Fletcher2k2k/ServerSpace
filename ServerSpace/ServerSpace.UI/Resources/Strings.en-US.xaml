@@ -58,6 +58,11 @@
     <sys:String x:Key="AboutAi1" xmlns:sys="clr-namespace:System;assembly=mscorlib">ServerSpace was developed with the assistance of artificial intelligence.</sys:String>
     <sys:String x:Key="AboutAi2" xmlns:sys="clr-namespace:System;assembly=mscorlib">Concept, feature selection, testing and release approval are performed by the developer.</sys:String>
     <sys:String x:Key="AboutTechnology" xmlns:sys="clr-namespace:System;assembly=mscorlib">Technology</sys:String>
+    <sys:String x:Key="AboutLicense" xmlns:sys="clr-namespace:System;assembly=mscorlib">License</sys:String>
+    <sys:String x:Key="AboutProject" xmlns:sys="clr-namespace:System;assembly=mscorlib">Project</sys:String>
+    <sys:String x:Key="AboutOrganization" xmlns:sys="clr-namespace:System;assembly=mscorlib">Organization</sys:String>
+    <sys:String x:Key="AboutProjectLink" xmlns:sys="clr-namespace:System;assembly=mscorlib">GitHub: edvfux/ServerSpace</sys:String>
+    <sys:String x:Key="AboutOrganizationLink" xmlns:sys="clr-namespace:System;assembly=mscorlib">GitHub: edvfux</sys:String>
     <sys:String x:Key="AboutLinks" xmlns:sys="clr-namespace:System;assembly=mscorlib">Project links</sys:String>
     <sys:String x:Key="AboutWebsite" xmlns:sys="clr-namespace:System;assembly=mscorlib">Project website</sys:String>
     <sys:String x:Key="AboutSourceCode" xmlns:sys="clr-namespace:System;assembly=mscorlib">Source code</sys:String>

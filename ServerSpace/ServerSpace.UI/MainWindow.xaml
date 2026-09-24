@@ -17,7 +17,6 @@
                           Click="SaveReportMenuItem_Click" IsEnabled="False" />
                 <MenuItem x:Name="SaveReportAsMenuItem" Header="{DynamicResource MenuSaveReportAs}" InputGestureText="Ctrl+Shift+S"
                           Click="SaveReportAsMenuItem_Click" IsEnabled="False" />
-                <Separator />
                 <MenuItem Header="{DynamicResource MenuLanguage}">
                     <MenuItem x:Name="GermanLanguageMenuItem" Header="{DynamicResource LanguageGerman}" IsCheckable="True"
                               Click="LanguageMenuItem_Click" Tag="German" />

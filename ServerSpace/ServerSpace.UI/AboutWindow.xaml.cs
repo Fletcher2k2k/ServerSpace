@@ -16,23 +16,21 @@ public partial class AboutWindow : Window
         string version = assembly.GetName().Version?.ToString(3) ?? "Unbekannt";
         VersionTextBlock.Text = LocalizationManager.Format("AboutVersion", version);
 
-        ConfigureLink(ProjectWebsiteButton, AppLinks.ProjectWebsite);
-        ConfigureLink(SourceCodeButton, AppLinks.SourceCodeUrl);
-        LinksPanel.Visibility = string.IsNullOrWhiteSpace(AppLinks.ProjectWebsite)
-            && string.IsNullOrWhiteSpace(AppLinks.SourceCodeUrl)
-            ? Visibility.Collapsed
-            : Visibility.Visible;
+        ConfigureLink(ProjectLink, AppLinks.SourceCodeUrl);
+        ConfigureLink(OrganizationLink, AppLinks.OrganizationUrl);
+        ConfigureLink(LicenseLink, AppLinks.LicenseUrl);
     }
 
-    private static void ConfigureLink(System.Windows.Controls.Button button, string url)
+    private static void ConfigureLink(System.Windows.Documents.Hyperlink link, string url)
     {
-        button.Tag = url;
-        button.Visibility = string.IsNullOrWhiteSpace(url) ? Visibility.Collapsed : Visibility.Visible;
+        link.Tag = url;
     }
 
-    private void ProjectWebsiteButton_Click(object sender, RoutedEventArgs e) => OpenLink(AppLinks.ProjectWebsite);
+    private void ProjectLink_Click(object sender, RoutedEventArgs e) => OpenLink(AppLinks.SourceCodeUrl);
 
-    private void SourceCodeButton_Click(object sender, RoutedEventArgs e) => OpenLink(AppLinks.SourceCodeUrl);
+    private void OrganizationLink_Click(object sender, RoutedEventArgs e) => OpenLink(AppLinks.OrganizationUrl);
+
+    private void LicenseLink_Click(object sender, RoutedEventArgs e) => OpenLink(AppLinks.LicenseUrl);
 
     private void OpenLink(string url)
     {
@@ -56,8 +54,6 @@ public partial class AboutWindow : Window
             ShowLinkError(LocalizationManager.Format("ErrorLinkOpen", exception.Message));
         }
     }
-
-    private void CloseButton_Click(object sender, RoutedEventArgs e) => Close();
 
     private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {

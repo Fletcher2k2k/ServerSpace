@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="{DynamicResource AboutTitle}"
         Icon="Assets/ServerSpace.ico"
-        Width="480"
-        Height="430"
+        Width="660"
+        SizeToContent="Height"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -14,50 +14,65 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" HorizontalAlignment="Center">
-            <TextBlock Text="ServerSpace" FontSize="28" FontWeight="SemiBold" HorizontalAlignment="Center" />
-            <TextBlock x:Name="VersionTextBlock" Margin="0,3,0,0" HorizontalAlignment="Center"
-                       Foreground="{StaticResource TextSecondaryBrush}" />
-            <TextBlock Text="Portable Windows Storage Analyzer" Margin="0,5,0,0"
-                       HorizontalAlignment="Center" FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}" />
-        </StackPanel>
-
-        <Separator Grid.Row="1" Margin="0,18,0,14" />
-
-        <StackPanel Grid.Row="2">
-            <TextBlock Text="{DynamicResource AboutDevelopedBy}" Foreground="{StaticResource TextSecondaryBrush}" />
-            <TextBlock Text="Jürgen Schön" FontSize="16" Margin="0,2,0,0" />
-            <TextBlock Text="{DynamicResource AboutFreeOpenSource}" Margin="0,12,0,0"
-                       FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
-        </StackPanel>
-
-        <StackPanel Grid.Row="3" Margin="0,20,0,0">
-            <TextBlock Text="{DynamicResource AboutAi1}"
-                       TextWrapping="Wrap" />
-            <TextBlock Text="{DynamicResource AboutAi2}"
-                       TextWrapping="Wrap" Margin="0,7,0,0" Foreground="{StaticResource TextSecondaryBrush}" />
-
-            <TextBlock Text="{DynamicResource AboutTechnology}" FontWeight="SemiBold" Margin="0,20,0,4" />
-            <TextBlock Text="C# / .NET 10   ·   WPF   ·   Windows x64" Foreground="{StaticResource TextSecondaryBrush}" />
-
-            <StackPanel x:Name="LinksPanel" Margin="0,18,0,0">
-                <TextBlock Text="{DynamicResource AboutLinks}" FontWeight="SemiBold" Margin="0,0,0,4" />
-                <Button x:Name="ProjectWebsiteButton" Content="{DynamicResource AboutWebsite}" HorizontalAlignment="Left"
-                        Padding="0" Background="Transparent" BorderThickness="0" Foreground="{StaticResource AccentBrush}"
-                        Click="ProjectWebsiteButton_Click" />
-                <Button x:Name="SourceCodeButton" Content="{DynamicResource AboutSourceCode}" HorizontalAlignment="Left"
-                        Padding="0" Background="Transparent" BorderThickness="0" Foreground="{StaticResource AccentBrush}"
-                        Click="SourceCodeButton_Click" />
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Image Source="Assets/ServerSpace-Icon-512.png" Width="64" Height="64"
+                   Stretch="Uniform" VerticalAlignment="Center" Margin="0,0,14,0" />
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="ServerSpace" FontSize="28" FontWeight="SemiBold" />
+                <TextBlock x:Name="VersionTextBlock" Margin="0,3,0,0"
+                           Foreground="{StaticResource TextSecondaryBrush}" />
+                <TextBlock Text="Portable Windows Storage Analyzer" Margin="0,5,0,0"
+                           FontStyle="Italic" Foreground="{StaticResource TextSecondaryBrush}" />
             </StackPanel>
         </StackPanel>
 
-        <TextBlock Grid.Row="4" Text="© 2026 Jürgen Schön" Foreground="{StaticResource TextSecondaryBrush}" />
-        <Button Grid.Row="5" Content="{DynamicResource AboutClose}" IsDefault="True" IsCancel="True"
-                Width="88" Padding="8,4" HorizontalAlignment="Right" Click="CloseButton_Click" />
+        <Grid Grid.Row="1" Margin="0,22,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.1*" />
+                <ColumnDefinition Width="1.4*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="0,0,28,0">
+                <TextBlock Text="{DynamicResource AboutDevelopedBy}" Foreground="{StaticResource TextSecondaryBrush}" />
+                <TextBlock Text="Jürgen Schön" FontSize="16" Margin="0,2,0,0" />
+
+                <TextBlock Text="{DynamicResource AboutLicense}" FontWeight="SemiBold" Margin="0,16,0,3" />
+                <TextBlock>
+                    <Hyperlink x:Name="LicenseLink" Foreground="{StaticResource AccentBrush}"
+                               Click="LicenseLink_Click"><Run Text="MIT License" /></Hyperlink>
+                </TextBlock>
+
+                <TextBlock Text="{DynamicResource AboutTechnology}" FontWeight="SemiBold" Margin="0,16,0,3" />
+                <TextBlock Text="C# / .NET 10   ·   WPF   ·   Windows x64"
+                           Foreground="{StaticResource TextSecondaryBrush}" TextWrapping="Wrap" />
+
+                <TextBlock Text="{DynamicResource AboutFreeOpenSource}" Margin="0,16,0,0"
+                           FontWeight="SemiBold" Foreground="{StaticResource AccentBrush}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1">
+                <TextBlock Text="{DynamicResource AboutAi1}" TextWrapping="Wrap" />
+                <TextBlock Text="{DynamicResource AboutAi2}" TextWrapping="Wrap"
+                           Margin="0,7,0,0" Foreground="{StaticResource TextSecondaryBrush}" />
+
+                <TextBlock Text="{DynamicResource AboutProject}" FontWeight="SemiBold" Margin="0,16,0,3" />
+                    <TextBlock>
+                        <Hyperlink x:Name="ProjectLink" Foreground="{StaticResource AccentBrush}"
+                               Click="ProjectLink_Click"><Run Text="{DynamicResource AboutProjectLink}" /></Hyperlink>
+                    </TextBlock>
+
+                <TextBlock Text="{DynamicResource AboutOrganization}" FontWeight="SemiBold" Margin="0,12,0,3" />
+                    <TextBlock>
+                        <Hyperlink x:Name="OrganizationLink" Foreground="{StaticResource AccentBrush}"
+                               Click="OrganizationLink_Click"><Run Text="{DynamicResource AboutOrganizationLink}" /></Hyperlink>
+                    </TextBlock>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock Grid.Row="2" Text="© 2026 Jürgen Schön" Margin="0,22,0,0"
+                   Foreground="{StaticResource TextSecondaryBrush}" />
     </Grid>
 </Window>
