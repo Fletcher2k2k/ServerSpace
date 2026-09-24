@@ -78,11 +78,11 @@ The language can be changed directly from the application menu.
 
 German:
 
-Menü -> Sprache -> Deutsch / English
+Ansicht -> Sprache -> Deutsch / English
 
 English:
 
-Menu -> Language -> Deutsch / English
+View -> Language -> Deutsch / English
 
 The selected language is stored locally and restored automatically on the next application start.
 
